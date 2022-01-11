@@ -1,4 +1,4 @@
-const NewBudget = () => {
+const NewBudget = ({budget, setBudget}) => {
   return (
     <div className="contenedor-presupuesto contendor sombra">
       <form className="formulario" action="">
@@ -10,6 +10,8 @@ const NewBudget = () => {
             className="nuevo-presupuesto"
             type="text" 
             placeholder="Add your budget"
+            value={budget}
+            onChange={e => setBudget(e.target.value)}
           />
 
           <input type="submit" value="Add" />
