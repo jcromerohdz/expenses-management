@@ -1,11 +1,14 @@
 import { useState } from 'react'
+import Message from './Message'
 import BtnClose from '../img/cerrar.svg'
 
-const Modal = ({setModal, modalAnimation, setModalAnimation}) => {
+const Modal = ({setModal, modalAnimation, setModalAnimation, saveSpent}) => {
 
 	const [name, setName] = useState('')
 	const [amount, setAmount] = useState(0)
 	const [category, setCategory] = useState('')
+
+	const [message, setMessage] = useState('')
 
 	const closeModal = () => {
 		
@@ -14,6 +17,22 @@ const Modal = ({setModal, modalAnimation, setModalAnimation}) => {
 		setTimeout(() => {
 			setModal(false)
 		}, 200)
+	}
+
+	const handleSubmit = (e) => {
+		e.preventDefault()
+
+		if([name, amount, category].includes('')) {
+			setMessage('All fields are required! 🥴')
+
+			setTimeout(() => {
+				setMessage('')
+			}, 2000)
+
+			return
+		}
+
+		saveSpent({name, amount, category})
 	}
 
 	return (
@@ -27,8 +46,13 @@ const Modal = ({setModal, modalAnimation, setModalAnimation}) => {
 
 			</div>
 
-			<form className={`formulario ${modalAnimation ? "animar" : "cerrar"}`} action="">
+			<form 
+				onSubmit={handleSubmit}
+				className={`formulario ${modalAnimation ? "animar" : "cerrar"}`} 
+				action=""
+			>
 				<legend>New Spent</legend>
+				{message && <Message type="error">{message}</Message>}
 
 				<div className="campo">
 					<label htmlFor="name">Spent Name</label>
@@ -44,10 +68,10 @@ const Modal = ({setModal, modalAnimation, setModalAnimation}) => {
 					<label htmlFor="amount">Spent Amount</label>
 					<input 
 						id="amount"
-						type="number" 
+						type="text" 
 						placeholder='Add spent amount: E.g. 300'
 						value={amount}
-						onChange={ e => setAmount(e.target.value)}
+						onChange={ e => setAmount(Number(e.target.value))}
 					/>
 				</div>
 				<div className="campo">
