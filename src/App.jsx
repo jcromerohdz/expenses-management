@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Header from './components/Header'
+import ExpensesList from './components/ExpensesList'
 import Modal from './components/Modal'
 import { generateId } from './helpers'
 import NewSpentIcon from './img/nuevo-gasto.svg'
@@ -23,6 +24,7 @@ function App() {
 
 	const saveSpent = spent => {
 		spent.id = generateId()
+		spent.date = Date.now()
 		setExpenses([...expenses, spent])
 
 
@@ -34,7 +36,7 @@ function App() {
 	}
 
   return (
-    <div>
+    <div className={modal ? 'fijar': ''}>
       <Header 
         budget={budget}
         setBudget={setBudget}
@@ -43,13 +45,20 @@ function App() {
       />
 
 			{isBudgetValid && (
-				<div className='nuevo-gasto'>
-					<img 
-						src={NewSpentIcon} 
-						alt="new spent icon" 
-						onClick={handleNewSpent}
-					/>
-				</div>
+				<>
+					<main>
+						<ExpensesList 
+							expenses={expenses}
+						/>
+					</main>
+					<div className='nuevo-gasto'>
+						<img 
+							src={NewSpentIcon} 
+							alt="new spent icon" 
+							onClick={handleNewSpent}
+						/>
+					</div>
+				</>
 			)}
 
 			{modal && <Modal 

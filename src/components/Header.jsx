@@ -4,7 +4,7 @@ import BudgetControl from "./BudgetControl"
 const Header = ({budget, setBudget, isBudgetValid, setIsBudgetValid}) => {
   return (
     <header>
-      <h1>Spences Management</h1>
+      <h1>Expenses Management</h1>
 			{isBudgetValid ? (
 				<BudgetControl 
 					budget={budget}
