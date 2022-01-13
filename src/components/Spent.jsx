@@ -1,3 +1,12 @@
+import {
+  LeadingActions,
+  SwipeableList,
+  SwipeableListItem,
+  SwipeAction,
+  TrailingActions
+} from 'react-swipeable-list'
+import "react-swipeable-list/dist/styles.css" 
+
 import { DateFormating } from "../helpers"
 
 import SavingsIcon from '../img/icono_ahorro.svg'
@@ -21,23 +30,49 @@ const dicIcons = {
 }
 
 const Spent = ({spent}) => {
+
+  const leadingActions = () => (
+    <LeadingActions>
+      <SwipeAction onClick={() => console.log('Editing...')}>
+        Edit
+      </SwipeAction>
+    </LeadingActions>
+  )
+ 
+
+  const trailingActions = () => (
+    <TrailingActions>
+      <SwipeAction onClick={() => console.log('Deleting...')}>
+        Delete
+      </SwipeAction>
+    </TrailingActions>
+
+  )
+
 	return (
-		<div className="gasto sombra">
-			<div className="contenido-gasto">
-				<img src={dicIcons[spent.category]} alt="category icon" />
+    <SwipeableList>
+      <SwipeableListItem
+        leadingActions={leadingActions()}
+        trailingActions={trailingActions()}
+      >
+        <div className="gasto sombra">
+          <div className="contenido-gasto">
+            <img src={dicIcons[spent.category]} alt="category icon" />
 
-				<div className="descripcion-gasto">
-					<p className="categoria">{spent.category}</p>
-					<p className="nombre-gasto">{spent.name}</p>
-					<p className="fecha-gasto">
-						Added since: {''}
-						<span>{DateFormating(spent.date)}</span>
-					</p>
-				</div>
+            <div className="descripcion-gasto">
+              <p className="categoria">{spent.category}</p>
+              <p className="nombre-gasto">{spent.name}</p>
+              <p className="fecha-gasto">
+                Added since: {''}
+                <span>{DateFormating(spent.date)}</span>
+              </p>
+            </div>
 
-			</div>
-				<p className="cantidad-gasto">${spent.amount}</p>
-		</div>
+          </div>
+            <p className="cantidad-gasto">${spent.amount}</p>
+        </div>
+      </SwipeableListItem>
+    </SwipeableList>
 	)
 }
 
