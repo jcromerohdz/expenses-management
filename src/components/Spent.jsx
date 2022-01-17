@@ -29,11 +29,11 @@ const dicIcons = {
 	subscriptions: SubscriptionIcon
 }
 
-const Spent = ({spent}) => {
+const Spent = ({spent, setEditSpent, deleteSpent}) => {
 
   const leadingActions = () => (
     <LeadingActions>
-      <SwipeAction onClick={() => console.log('Editing...')}>
+      <SwipeAction onClick={() => setEditSpent(spent)}>
         Edit
       </SwipeAction>
     </LeadingActions>
@@ -42,7 +42,10 @@ const Spent = ({spent}) => {
 
   const trailingActions = () => (
     <TrailingActions>
-      <SwipeAction onClick={() => console.log('Deleting...')}>
+      <SwipeAction 
+        onClick={() => deleteSpent(spent.id)}
+        destructive={true}
+      >
         Delete
       </SwipeAction>
     </TrailingActions>

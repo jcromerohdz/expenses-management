@@ -1,18 +1,32 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Message from './Message'
 import BtnClose from '../img/cerrar.svg'
 
-const Modal = ({setModal, modalAnimation, setModalAnimation, saveSpent}) => {
+const Modal = ({setModal, modalAnimation, setModalAnimation, saveSpent, editSpent, setEditSpent}) => {
 
 	const [name, setName] = useState('')
 	const [amount, setAmount] = useState(0)
 	const [category, setCategory] = useState('')
 
 	const [message, setMessage] = useState('')
+  const [id, setId] = useState('')
+  const [date, setDate] = useState('')
+
+  useEffect(() => {
+    if( Object.keys(editSpent).length > 0) {
+      setName(editSpent.name)
+      setAmount(editSpent.amount)
+      setCategory(editSpent.category)
+      setId(editSpent.id)
+      setDate(editSpent.date)
+    }
+
+  }, [])
 
 	const closeModal = () => {
 		
 		setModalAnimation(false)
+    setEditSpent({})
 
 		setTimeout(() => {
 			setModal(false)
@@ -32,7 +46,7 @@ const Modal = ({setModal, modalAnimation, setModalAnimation, saveSpent}) => {
 			return
 		}
 
-		saveSpent({name, amount, category})
+		saveSpent({name, amount, category, id, date})
 	}
 
 	return (
@@ -51,7 +65,7 @@ const Modal = ({setModal, modalAnimation, setModalAnimation, saveSpent}) => {
 				className={`formulario ${modalAnimation ? "animar" : "cerrar"}`} 
 				action=""
 			>
-				<legend>New Spent</legend>
+				<legend>{editSpent.name ? 'Edit Spent' : 'New Spent'}</legend>
 				{message && <Message type="error">{message}</Message>}
 
 				<div className="campo">
@@ -97,7 +111,7 @@ const Modal = ({setModal, modalAnimation, setModalAnimation, saveSpent}) => {
 
 				<input 
 					type="submit" 
-					value="Add Spent"
+					value={editSpent.name ?"Edit Spent" : "Add Spent"}
 				/>
 			</form>
 			
